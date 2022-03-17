@@ -28,6 +28,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home">BRA database</a></li>
             <li><a data-toggle="tab" href="#carte">Carte des risques</a></li>
+            <li><a data-toggle="tab" href="#base">Carte de base des massifs</a></li>
             <li><a data-toggle="tab" href="#bulletins">Bulletins</a></li>
             <li><a data-toggle="tab" href="#evolution">Evolution par massif</a></li>
             <li><a data-toggle="tab" href="#about">A propos</a></li>
@@ -44,18 +45,24 @@
             <div id="carte" class="tab-pane fade">
                 {{ carte_risque_massifs | safe }}
             </div>
+            
+            <!-- Tab 3: base -->
+            <div id="base" class="tab-pane fade">
+                <iframe src="https://www.google.com/maps/d/embed?mid=1S0qBZM0RRRZ5v6h1hjnlbOHXbDsgMBaO&ehbc=2E312F" width="640"
+                    height="480"></iframe>
+            </div>
 
-            <!-- Tab 3: bulletins -->
+            <!-- Tab 4: bulletins -->
             <div id="bulletins" class="tab-pane fade">
                 </br>TBD
             </div>
 
-            <!-- Tab 4: evolution -->
+            <!-- Tab 5: evolution -->
             <div id="evolution" class="tab-pane fade">
                 </br>TBD
             </div>
 
-            <!-- Tab 5: about -->
+            <!-- Tab 6: about -->
             <div id="about" class="tab-pane fade">
                 </br>TBD
             </div>

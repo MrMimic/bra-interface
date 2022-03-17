@@ -4,7 +4,7 @@ from datetime import datetime
 import os
 from bra_interface.connection import BraDatabase
 from bra_interface.utils import DbCredentials, get_logger
-from bra_interface.maps import get_risk_map
+from bra_interface.maps import Mapper
 
 from dotenv import load_dotenv
 from flask import Flask, render_template
@@ -37,10 +37,11 @@ with BraDatabase(credentials=credentials, logger=logger) as database:
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    mapper = Mapper(logger=logger)
     context = {
         "contact_email": "emeric.dynomant@gmail.com",
         "home": "https://data-baguette.com",
-        "carte_risque_massifs": get_risk_map(html=True)
+        "carte_risque_massifs": mapper.get_risk_map(html=True)
     }
     html_template = render_template("index.html", **context)
     return html_template

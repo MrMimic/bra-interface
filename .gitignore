@@ -1,6 +1,7 @@
 # Custom
 .vscode
 logs
+bra_interface/scripts/massif_coords_csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
