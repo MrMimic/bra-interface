@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>BRA database visualisation</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="{{ favicon_path }}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Bulletins des Risques d'Avalanche</h2>
+        <p>{{ page_header | safe }}</p>
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">BRA database</a></li>
+            <li><a data-toggle="tab" href="#carte">Carte des risques</a></li>
+            <li><a data-toggle="tab" href="#bulletins">Bulletins</a></li>
+            <li><a data-toggle="tab" href="#evolution">Evolution par massif</a></li>
+            <li><a data-toggle="tab" href="#about">A propos</a></li>
+        </ul>
+
+        <div class="tab-content">
+
+            <!-- Tab 1: applet -->
+            <div id="home" class="tab-pane fade in active">
+                </br>TBD
+            </div>
+            
+            <!-- Tab 2: carte -->
+            <div id="carte" class="tab-pane fade">
+                {{ carte_risque_massifs | safe }}
+            </div>
+
+            <!-- Tab 3: bulletins -->
+            <div id="bulletins" class="tab-pane fade">
+                </br>TBD
+            </div>
+
+            <!-- Tab 4: evolution -->
+            <div id="evolution" class="tab-pane fade">
+                </br>TBD
+            </div>
+
+            <!-- Tab 5: about -->
+            <div id="about" class="tab-pane fade">
+                </br>TBD
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
