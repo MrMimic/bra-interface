@@ -54,7 +54,11 @@
 
             <!-- Tab 4: bulletins -->
             <div id="bulletins" class="tab-pane fade">
-                </br>TBD
+                <select name="massif" id="massif-select">
+                    {% for massif in massifs %}
+                        <option value="{{massif}}">{{ massif }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <!-- Tab 5: evolution -->

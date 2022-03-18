@@ -41,7 +41,8 @@ def index():
     context = {
         "contact_email": "emeric.dynomant@gmail.com",
         "home": "https://data-baguette.com",
-        "carte_risque_massifs": mapper.get_risk_map(html=True)
+        "carte_risque_massifs": mapper.get_risk_map(html=True),
+        "massifs": available_massifs
     }
     html_template = render_template("index.html", **context)
     return html_template
