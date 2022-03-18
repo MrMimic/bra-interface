@@ -4,7 +4,7 @@ https://www.google.com/maps/d/edit?mid=1S0qBZM0RRRZ5v6h1hjnlbOHXbDsgMBaO&usp=sha
 This map is exported layer by layer as CSV, that are placed into the folder along this script.
 It creates a pickle file representing a dict {massif: Geoserie of the polygon}.
 """
-
+import re
 import os
 import pandas as pd
 from geopandas import GeoSeries
@@ -15,7 +15,7 @@ data_path = os.path.join(os.path.dirname(__file__), "massif_coords_csv")
 massif_coord_gps = {}
 
 for file in os.listdir(data_path):
-    massif = file.replace("BRA- ", "").replace(".csv", "")
+    massif = re.search(r"BRA-[0-9]?-? ([A-Z\-_]+).csv", file).group(1)
     df = pd.read_csv(os.path.join(data_path, file))
     coords = GeoSeries([wkt.loads(p) for p in df["WKT"].to_list()]).tolist()
     massif_coord_gps[massif] = coords

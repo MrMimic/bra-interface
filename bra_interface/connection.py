@@ -42,7 +42,6 @@ class BraDatabase():
     def exec_query(self, query: str, data: Any = None, output: bool = True) -> Any:
         """Execute a query.
         """
-        self.logger.info(f"Executing {query.split()[0]} query on {self.credentials.database}.{self.credentials.table}")
         with self.connection.cursor(pymysql.cursors.DictCursor) as cursor:
             try:
                 if data:

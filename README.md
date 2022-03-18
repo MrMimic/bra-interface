@@ -21,34 +21,30 @@ Adding points to:
 
 Layers should be exported to KML format.
 
+Maps drawn according to 
+
+<https://www.avalanches.fr/static/1public/epaclpa/notices_par_massif/>
+
 # TODO
 
 - Table that compare stats about massifs (supperficie, centroid, etc)
+- add "more info" with <https://www.avalanches.fr/static/1public/epaclpa/notices_par_massif>
 
 MAPS:
 aspe-ossau
 aure-louron
 capcir-puymorens
 cerdagne-canigou
-chablais
-champsaur
 cinto-rotondo
 couserans
-devoluy
-embrunais-parpaillon
-haut-var_haut-verdon
 haute-ariege
 haute-bigorre
-haute-maurienne
 haute-tarentaise
 luchonnais
-maurienne
 mercantour
-oisans
 orlu st barthelemy
 pays-basque
 pelvoux
 renoso-incudine
-thabor
 ubaye
-vanoise
+

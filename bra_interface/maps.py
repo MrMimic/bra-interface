@@ -3,6 +3,7 @@
 import logging
 import os
 import pickle
+from typing import List
 
 import geopandas
 from folium import GeoJson, GeoJsonTooltip, Map
@@ -26,14 +27,21 @@ class Mapper():
             4: "red",
             5: "black"
         }
+        # Load the precomputed polygons representing massifs
+        self.massifs_coords = pickle.load(open(os.path.join(os.path.dirname(__file__), "massif_coord_gps.pkl"), "rb"))
+        # And the latest data from the DB
+        self.massif_data= {}
+        for massif in self.massifs_coords:
+            self.logger.info(f"Getting data for massif {massif}")
+            self.massif_data[massif] = self.get_lastest_data(massif, columns=["risk_score", "date"])
 
     def get_style(self, input_data):
-        score = self.get_last_risk(input_data["properties"]["name"].lower())
+        score = self.massif_data[input_data["properties"]["name"].upper()]["risk_score"]
         return {"fillColor": self.cmap[score], "fillOpacity": "0.5", "weight": "1", "color": "white"}
 
-    def get_last_risk(self, massif: str):
+    def get_lastest_data(self, massif: str, columns: List[str] = ["*"]):
         query = f"""
-            SELECT risk_score 
+            SELECT {', '.join(columns)} 
             FROM bra.france f
             WHERE f.id = (
                 SELECT MAX(id) 
@@ -46,8 +54,8 @@ class Mapper():
             massif = '{massif}')
         """
         with BraDatabase(credentials=self.credentials, logger=self.logger) as database:
-            score = database.exec_query(query)[0]["risk_score"]
-        return score
+            data = database.exec_query(query)[0]
+        return data
 
     def get_risk_map(self, html: bool = False):
 
@@ -78,17 +86,21 @@ class Mapper():
                                                                     sticky=False
                                                                                 )).add_to(zoomed_map)
 
-        # Load the massif coordinate coming from Gmaps data    
-        massifs_coords = pickle.load(open(os.path.join(os.path.dirname(__file__), "massif_coord_gps.pkl"), "rb"))
-        geometries = []
-        names = []
-        risks = []
-        for massif in massifs_coords:
-            geometries.append(Polygon(massifs_coords[massif]))
-            names.append(massif)
-            risks.append(self.get_last_risk(massif))
+        # Aggregate the massif data
+        massifs_data = {
+            "geometry": [],
+            "name": [],
+            "risks": [],
+            "date": []
+        }
+        for massif in self.massifs_coords:
+            massifs_data["geometry"].append(Polygon(self.massifs_coords[massif]))
+            massifs_data["name"].append(massif)
+            massif_data = self.massif_data[massif]
+            massifs_data["risks"].append(massif_data["risk_score"])
+            massifs_data["date"].append(massif_data["date"].strftime("%d/%m/%Y"))
         
-        massifs = GeoDataFrame({'geometry': geometries, "name": names, "risks": risks})
+        massifs = GeoDataFrame(massifs_data)
         massifs.crs = france.crs  
 
         # Apply the massifs on the map
@@ -100,6 +112,7 @@ class Mapper():
                                                                     sticky=False
                                                                                 )).add_to(zoomed_map)
 
+        # Returns HTML or the map object directly
         if html:
             return zoomed_map._repr_html_()
         else:
