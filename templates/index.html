@@ -21,13 +21,12 @@
 <body>
 
     <div class="container">
-        <h2 class="main-title">Bulletins des Risques d'Avalanche</h2>
-        <p>{{ page_header | safe }}</p>
+        <h2 class="main-title">Bulletins des Risques d'Avalanche (BRA)</h2>
 
         <ul class="nav nav-tabs" id="tabulations">
-            <li class="active"><a data-toggle="tab" href="#home">Derniers BRA</a></li>
+            <li class="{{ activity_bra_tab }}"><a data-toggle="tab" href="#bra">Derniers BRA</a></li>
             <li><a data-toggle="tab" href="#carte">Carte des risques</a></li>
-            <li><a data-toggle="tab" href="#bulletins">Historique des Bulletins</a></li>
+            <li class="{{ activity_history_tab }}"><a data-toggle="tab" href="#history">Historique des Bulletins</a></li>
             <li><a data-toggle="tab" href="#evolution">Evolution par massif</a></li>
             <li><a data-toggle="tab" href="#about">A propos</a></li>
         </ul>
@@ -35,15 +34,15 @@
         <div class="tab-content">
 
             <!-- Tab 1: applet -->
-            <div id="home" class="tab-pane fade in active">
+            <div id="bra" class="{{ activity_bra_div }}">
                 <div class="select-massif-div">
                     <form class="select-massif-form" method="POST" action="{{ url_for('index') }}">
-                        <select name="selected_massif" class="select-massif-dropdown">
+                        <select name="bra_selected_massif" class="select-massif-dropdown">
                             {% for massif in massifs %}
                                 {% if massif == BRA_selected_massif %}
-                                    <option value="{{ massif }}" selected>{{ massif }}</option>
+                                    <option value="{{ massif }}" selected>{{ massif.title() }}</option>
                                 {% else %}
-                                    <option value="{{ massif }}">{{ massif }}</option>
+                                    <option value="{{ massif }}">{{ massif.title() }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
@@ -75,9 +74,28 @@
                 {{ carte_risque_massifs | safe }}
             </div>
 
-            <!-- Tab 3: bulletins -->
-            <div id="bulletins" class="tab-pane fade">
-                </br>TBD
+            <!-- Tab 3: historical data -->
+            <div id="history" class="{{ activity_history_div }}">
+                <div class="select-massif-div">
+                    <form class="select-massif-form" method="POST" action="{{ url_for('index') }}">
+                        <select name="history_selected_massif" class="select-massif-dropdown">
+                            {% for massif in massifs %}
+                            {% if massif == HISTORY_selected_massif %}
+                            <option value="{{ massif }}" selected>{{ massif.title() }}</option>
+                            {% else %}
+                            <option value="{{ massif }}">{{ massif.title() }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="select-massif-button">Go</button>
+                    </form>
+                </div>
+                <div class="history-bra">
+                    BRA disponibles pour ce massif: </br>
+                    {% for bra in BRA_history %}
+                        <a href="{{ bra[1] }}" target="_blank">{{ bra[0] }}</a></br>
+                    {% endfor %}
+                </div>
             </div>
 
             <!-- Tab 4: evolution -->
@@ -87,9 +105,27 @@
 
             <!-- Tab 5: about -->
             <div id="about" class="tab-pane fade">
-                </br>TBD
-            </div>
+                
+                <h3>Les bulletins des risques</h3>
+                <p>Le bulletin d’estimation du risque avalanche est un outil d’aide à la décision prépondérant, tant pour les randonneurs, les élus, que pour les professionnels ou les services en charge de la sécurité (routes, domaines skiables, etc).</p>
+                <p>Plus d'info <a href="https://www.anena.org/7132-le-bulletin-du-risque-d-avalanche.htm#:~:text=Le%20bulletin%20d'estimation%20du,(routes%2C%20domaines%20skiables%E2%80%A6)" target="_blank">ici</a>.</p>
 
+                <h3>Pourquoi ce site ?</h3>
+                <p>Bien que vitalaux pour les passionnés et professionnels de la montagne, la publication des BRA dans son format actuel n'est que peu pratique (PDF à télécharger un par un, pas de vue d'ensemble, site austère, aucune visualisation graphique, etc).</p>
+                <p>Je voulais donc me faire un outil qui me permettrait de voir, en un coup d'oeil, où sont les massifs à risque a un instant donné afin de mieux planifier mes sorties ski de rando / alpinisme.</p>
+                <p>Cette base pourrait également servir à tout un temps d'apprentissages automatiques et/ou de traitements du langage naturel. Je peux aider à la réalisation si vous avez des idées.</p>
+                
+                <h3>Comment ça marche ?</h3>
+                <p>Pour parler technique, un docker (<a href="https://github.com/MrMimic/bra-database" target="_blank">code en open-source</a>) se lance tous les jours sur GCP. Il parcourt les fichiers PDF, structure les données, analyse les images afin d'extraire la valeur de risque d'avalanche ce jour et insère tout dans une base MySQL managée.</p>
+                <p>Pour obtenir une clef d'accès (API) à cette base de donnée, me contacter via les réseaux ci-dessous.</p>
+                <p>Le site que vous consultez (<a href="https://github.com/MrMimic/bra-interface" target="_blank">code en open-source</a>) a été réalisé en utilisant la librairie Python <a href="https://flask.palletsprojects.com/en/2.0.x/", target="_blank">Flask</a> comme serveur backend, <a href="https://geopandas.org/en/stable/" , target="_blank">GeoPandas</a> pour manipuler les données spatiales et <a href="https://python-visualization.github.io/folium/" , target="_blank">Folium</a> pour tracer les cartes.</p>
+
+                <h3>Autres liens</h3>
+               <p>Publication des données: <a href="https://donneespubliques.meteofrance.fr/?fond=produit&id_produit=265&id_rubrique=50"  target="_blank">Météo-France</a></p>
+               <p>Mon github perso: <a href="https://github.com/MrMimic" target="_blank">MrMimic</a></p>
+               <p>Mon LinkedIn: <a href="https://www.linkedin.com/in/emeric-dynomant/" target="_blank">Emeric</a></p>
+               <p>Mes autres délires: <a href="https://data-baguette.com/" target="_blank">data-baguette</a></p>
+            </div>
         </div>
     </div>
 </body>
