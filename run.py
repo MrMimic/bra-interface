@@ -27,13 +27,13 @@ except KeyError:
     base_path = os.path.join(os.sep, "logs")
 logger = get_logger(base_path=base_path, file_name=f"{today}_bra_database.log")
 
-# Prepare the PDF parser and the DB credentials
+# Get the massif names
 credentials = DbCredentials()
 with BraDatabase(credentials=credentials, logger=logger) as database:
     query = f"""
-        SELECT COUNT(id) from bra.france"""
-    out = database.exec_query(query)
-    print(out)
+        SELECT DISTINCT(massif) from bra.france"""
+    available_massifs = [m["massif"] for m in database.exec_query(query)]
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():

@@ -24,6 +24,7 @@ mapclassify = "^2.4.3"
 PyQt5 = "^5.15.6"
 fastparquet = "^0.8.0"
 Flask = "^2.0.3"
+dash = "^2.3.0"
 
 [tool.poetry.dev-dependencies]
 
