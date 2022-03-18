@@ -1,0 +1,40 @@
+
+.main-title{
+    font-size: 2em;
+}
+
+#tabulations {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+/* Massif selection */
+
+.select-massif-div {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.select-massif-dropdown {
+    width: 20%;
+    margin-right: 2%;
+}
+
+.select-massif-button {
+    width: 10%;
+}
+
+.table-key {
+    width: 30%;
+}
+
+.table-value {
+    width: 70%;
+}
+
+/* BRA map */
+
+#carte {
+    width: 100%;
+    height: 100%;
+}

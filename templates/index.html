@@ -3,29 +3,28 @@
 <html lang="en">
 
 <head>
-    <title>BRA database visualisation</title>
+    <title>BRA database</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="shortcut icon" href="{{ favicon_path }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-
 </head>
 
 <body>
 
     <div class="container">
-        <h2>Bulletins des Risques d'Avalanche</h2>
+        <h2 class="main-title">Bulletins des Risques d'Avalanche</h2>
         <p>{{ page_header | safe }}</p>
 
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" id="tabulations">
             <li class="active"><a data-toggle="tab" href="#home">Derniers BRA</a></li>
             <li><a data-toggle="tab" href="#carte">Carte des risques</a></li>
             <li><a data-toggle="tab" href="#bulletins">Historique des Bulletins</a></li>
@@ -37,14 +36,20 @@
 
             <!-- Tab 1: applet -->
             <div id="home" class="tab-pane fade in active">
-                <form class="form-inline" method="POST" action="{{ url_for('index') }}">
-                    <select name="selected_massif" id="massif-select">
-                        {% for massif in massifs %}
-                        <option value="{{ massif }}">{{ massif }}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit" class="btn btn-default">Go</button>
-                </form>
+                <div class="select-massif-div">
+                    <form class="select-massif-form" method="POST" action="{{ url_for('index') }}">
+                        <select name="selected_massif" class="select-massif-dropdown">
+                            {% for massif in massifs %}
+                                {% if massif == BRA_selected_massif %}
+                                    <option value="{{ massif }}" selected>{{ massif }}</option>
+                                {% else %}
+                                    <option value="{{ massif }}">{{ massif }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="select-massif-button">Go</button>
+                    </form>
+                </div>
                 <div id="table-bra">
                     <table>
                         <thead>
@@ -56,8 +61,8 @@
                         <tbody>
                             {% for key, value in BRA_data.items() %}
                             <tr>
-                                <td>{{ key | safe }}</td>
-                                <td>{{ value | safe }}</td>
+                                <td class="table-key">{{ key | safe }}</td>
+                                <td class="table-value">{{ value | safe }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -72,7 +77,7 @@
 
             <!-- Tab 3: bulletins -->
             <div id="bulletins" class="tab-pane fade">
-                Historique
+                </br>TBD
             </div>
 
             <!-- Tab 4: evolution -->

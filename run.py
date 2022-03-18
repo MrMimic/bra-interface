@@ -42,8 +42,7 @@ with BraDatabase(credentials=credentials, logger=logger) as database:
 mapper = Mapper(logger=logger)
 
 def get_specific_bra(massif: str) -> Dict[str, str]:
-    """
-    """
+    """Select the latest BRA of a specific massif"""
     with BraDatabase(credentials=credentials, logger=logger) as database:
         query = f"""
             SELECT * 
@@ -63,8 +62,7 @@ def get_specific_bra(massif: str) -> Dict[str, str]:
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-
-    # The selected massif for BRA print
+    # The selected massif for BRA table
     try:
         selected_massif = request.form["selected_massif"]
     except KeyError:
