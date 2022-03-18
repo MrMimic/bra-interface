@@ -26,10 +26,9 @@
         <p>{{ page_header | safe }}</p>
 
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home">BRA database</a></li>
+            <li class="active"><a data-toggle="tab" href="#home">Derniers BRA</a></li>
             <li><a data-toggle="tab" href="#carte">Carte des risques</a></li>
-            <li><a data-toggle="tab" href="#base">Carte de base des massifs</a></li>
-            <li><a data-toggle="tab" href="#bulletins">Bulletins</a></li>
+            <li><a data-toggle="tab" href="#bulletins">Historique des Bulletins</a></li>
             <li><a data-toggle="tab" href="#evolution">Evolution par massif</a></li>
             <li><a data-toggle="tab" href="#about">A propos</a></li>
         </ul>
@@ -38,35 +37,50 @@
 
             <!-- Tab 1: applet -->
             <div id="home" class="tab-pane fade in active">
-                </br>TBD
+                <form class="form-inline" method="POST" action="{{ url_for('index') }}">
+                    <select name="selected_massif" id="massif-select">
+                        {% for massif in massifs %}
+                        <option value="{{ massif }}">{{ massif }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-default">Go</button>
+                </form>
+                <div id="table-bra">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Clef</th>
+                                <th>Valeur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in BRA_data.items() %}
+                            <tr>
+                                <td>{{ key | safe }}</td>
+                                <td>{{ value | safe }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
             <!-- Tab 2: carte -->
             <div id="carte" class="tab-pane fade">
                 {{ carte_risque_massifs | safe }}
             </div>
-            
-            <!-- Tab 3: base -->
-            <div id="base" class="tab-pane fade">
-                <iframe src="https://www.google.com/maps/d/embed?mid=1S0qBZM0RRRZ5v6h1hjnlbOHXbDsgMBaO&ehbc=2E312F" width="640"
-                    height="480"></iframe>
-            </div>
 
-            <!-- Tab 4: bulletins -->
+            <!-- Tab 3: bulletins -->
             <div id="bulletins" class="tab-pane fade">
-                <select name="massif" id="massif-select">
-                    {% for massif in massifs %}
-                        <option value="{{massif}}">{{ massif }}</option>
-                    {% endfor %}
-                </select>
+                Historique
             </div>
 
-            <!-- Tab 5: evolution -->
+            <!-- Tab 4: evolution -->
             <div id="evolution" class="tab-pane fade">
                 </br>TBD
             </div>
 
-            <!-- Tab 6: about -->
+            <!-- Tab 5: about -->
             <div id="about" class="tab-pane fade">
                 </br>TBD
             </div>
