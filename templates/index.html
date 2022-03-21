@@ -46,22 +46,24 @@
                                 {% endif %}
                             {% endfor %}
                         </select>
-                        <button type="submit" class="select-massif-button">Go</button>
+                        <button type="submit" class="select-massif-button">Chercher</button>
                     </form>
                 </div>
-                <div id="table-bra">
+                <div class="table-bra">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>Clef</th>
-                                <th>Valeur</th>
-                            </tr>
-                        </thead>
                         <tbody>
                             {% for key, value in BRA_data.items() %}
-                            <tr>
+                            <tr class="table-row">
                                 <td class="table-key">{{ key | safe }}</td>
-                                <td class="table-value">{{ value | safe }}</td>
+                                {% if value is none %}
+                                <td class="table-none-value">Non trouvé</td>
+                                {% else %}
+                                    {% if value is integer %}
+                                    <td class="table-value">{{ value | safe }}</td>
+                                    {% else %}
+                                    <td class="table-value">{{ value.capitalize() | safe }}</td>
+                                    {% endif %}
+                                {% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>

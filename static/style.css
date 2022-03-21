@@ -6,22 +6,97 @@
 #tabulations {
     margin-top: 2%;
     margin-bottom: 2%;
+    font-size: 1.8vh;
 }
 
 /* Massif selection */
 
 .select-massif-div {
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    vertical-align: middle;
+    font-size: 1.2em;
+    height: 5vh;
 }
 
 .select-massif-dropdown {
-    width: 20%;
     margin-right: 2%;
+    width: 30vw;
+    height: 4vh;
 }
 
 .select-massif-button {
-    width: 10%;
+  width: 20vw;
+  background-color: transparent;
+  border: 1px solid #266DB6;
+  box-sizing: border-box;
+  color: #00132C;
+  font-family: "Avenir Next LT W01 Bold",sans-serif;
+  position: relative;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.select-massif-button:hover,
+.select-massif-button:active {
+  outline: 0;
+}
+
+.select-massif-button:hover {
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.select-massif-button:before {
+  background-color: #D5EDF6;
+  content: "";
+  height: calc(100% + 3px);
+  position: absolute;
+  right: -7px;
+  top: -9px;
+  transition: background-color 300ms ease-in;
+  width: 100%;
+  z-index: -1;
+}
+
+.select-massif-button:hover:before {
+  background-color: #6DCFF6;
+}
+
+@media (min-width: 768px) {
+  .select-massif-button {
+    padding: 0.3vh 0.1vh;
+  }
+}
+
+/* BRA table */
+
+.table-row {
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 1.7vh;
+}
+
+.table-row:hover {
+    color: #082f63;
+    font-weight: 600;
+}
+
+
+.table-value:after, .table-none-value:after {
+    content:"";
+    height: 1px;
+    display: flex;
+    position: absolute;
+    background: linear-gradient(to right, rgb(0, 140, 255, 0.80) 10%, rgba(0, 140, 255, 0.40) 20%, rgba(255, 0, 0, 0) 50%);
+    width: 50%;
+    left: 20%;
+}
+
+.table-none-value {
+    color: rgba(148, 28, 28, 0.884);
 }
 
 .table-key {

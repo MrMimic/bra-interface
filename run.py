@@ -69,7 +69,7 @@ def get_specific_history(massif: str) -> Dict[str, str]:
         query = f"""
             SELECT date, original_link
             FROM bra.france
-            WHERE massif = '{massif}';
+            WHERE massif = '{massif}'
             ORDER BY date DESC;
         """
         history = [(d["date"].strftime(date_format), d["original_link"]) for d in database.exec_query(query)]
