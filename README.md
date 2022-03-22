@@ -31,18 +31,9 @@ Maps drawn according to
 - add "more info" with <https://www.avalanches.fr/static/1public/epaclpa/notices_par_massif>
 
 MAPS:
-aspe-ossau
-aure-louron
-capcir-puymorens
-cerdagne-canigou
-cinto-rotondo
-couserans
-haute-ariege
-haute-bigorre
 haute-tarentaise
 luchonnais
 mercantour
-orlu st barthelemy
 pays-basque
 pelvoux
 renoso-incudine

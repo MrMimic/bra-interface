@@ -74,9 +74,9 @@ class Mapper():
         france["name"] = ["France"]
         # No color filling for the whole country
         style_france = {'fillColor': "#00000000", "weight": "1", "color": "black"}
-        # Create a Folium map with desired level of zoom of the France
-        middle_france = [46.854422675450635, 3.6521234005924885]
-        zoomed_map = Map(location=middle_france, zoom_start=6, control_scale=True)
+        # Create a Folium map , centered on Avignon, with the desired level of zoom of the France
+        middle_france = [43.949317, 4.805528]
+        zoomed_map = Map(location=middle_france, zoom_start=7, control_scale=True)
         # Add the France polygon to the map
         GeoJson(france,
             style_function=lambda x: style_france,

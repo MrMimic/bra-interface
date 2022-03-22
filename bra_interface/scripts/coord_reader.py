@@ -15,7 +15,7 @@ data_path = os.path.join(os.path.dirname(__file__), "massif_coords_csv")
 massif_coord_gps = {}
 
 for file in os.listdir(data_path):
-    massif = re.search(r"BRA-[0-9]?-? ([A-Z\-_]+).csv", file).group(1)
+    massif = re.search(r"BRA-[0-9]?-? ([A-Z\-_ ]+).csv", file).group(1)
     df = pd.read_csv(os.path.join(data_path, file))
     coords = GeoSeries([wkt.loads(p) for p in df["WKT"].to_list()]).tolist()
     massif_coord_gps[massif] = coords
