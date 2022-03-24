@@ -55,13 +55,21 @@
                             {% for key, value in BRA_data.items() %}
                             <tr class="table-row">
                                 <td class="table-key">{{ key | safe }}</td>
+
                                 {% if value is none %}
                                 <td class="table-none-value">Non trouvé</td>
+
                                 {% else %}
-                                    {% if value is integer %}
+
+                                {% if value is integer %}
                                     <td class="table-value">{{ value | safe }}</td>
+
                                     {% else %}
-                                    <td class="table-value">{{ value.capitalize() | safe }}</td>
+                                        {% if "donneespubliques.meteofrance.fr" in value %}
+                                            <td class="table-value">{{ value | safe }}</td>
+                                        {% else %}
+                                            <td class="table-value">{{ value.capitalize() | safe }}</td>
+                                        {% endif %}
                                     {% endif %}
                                 {% endif %}
                             </tr>
