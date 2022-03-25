@@ -30,6 +30,10 @@ class DbCredentials:
         self.port = port or int(self._try_to_get_key("MYSQL_PORT"))
         self.database = database or self._try_to_get_key("MYSQL_DB")
         self.table = database or self._try_to_get_key("MYSQL_TABLE")
+        self.db_encoding = os.environ.get("MYSQL_ENCODING", "utf8mb4")
+        # Thos two are needed for the GCP environment
+        self.socket_dir = os.environ.get("MYSQL_SOCKET", "/cloudsql")
+        self.connection_name = self._try_to_get_key("MYSQL_CONN_NAME")
         # Say hello
         self._handshake()
 
@@ -40,11 +44,26 @@ class DbCredentials:
             SELECT COUNT(original_link) AS nb_files
             FROM {self.database}.{self.table}
         """
-        connection = pymysql.connect(host=self.host,
-                                     user=self.user,
-                                     password=self.password,
-                                     port=self.port,
-                                     db=self.database)
+        if self.connection_name is None:  # Meaning we're not on GCP
+            self.logger.info("Reaching MySQL from local environment")
+            connection = pymysql.connect(
+                host=self.host,
+                user=self.user,
+                password=self.password,
+                port=self.port,
+                db=self.database,
+                charset=self.db_encoding,
+                cursorclass=pymysql.cursors.DictCursor)
+        else:  # Meaning we're on GCP
+            self.logger.info("Reaching MySQL from GCP environment")
+            connection = pymysql.connect(
+                unix_socket=f"{self.socket_dir}/{self.connection_name}",
+                user=self.user,
+                password=self.password,
+                port=self.port,
+                db=self.database,
+                charset=self.db_encoding,
+                cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
             cursor.execute(query)
             self.inserted_files = cursor.fetchone()["nb_files"]
@@ -65,7 +84,7 @@ class DbCredentials:
         return f"mysql+pymysql://{self.user}:{self.password}@{self.host}:{self.port}"
 
     def __repr__(self) -> str:
-        """Return a string representation of the credentials.
+        """Return a string representation of the 
         """
         output = f"""
         Found database parameters:

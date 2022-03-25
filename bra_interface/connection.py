@@ -1,6 +1,7 @@
 """Insert structured data into a GCP MySQL database.
 """
 import logging
+import os
 from typing import Any, List, get_type_hints
 
 import pymysql
@@ -17,16 +18,42 @@ class BraDatabase():
         self.credentials = credentials
         # Logger
         self.logger = logger or get_logger()
+        # Socker dir for SQL connection
+        self.socket_dir = os.environ.get("MYSQL_SOCKET", "/cloudsql")
+        self.connection_name = os.environ.get("MYSQL_CONN_NAME", None)
+        # Define global encoding
+        self.db_encoding = os.environ.get("MYSQL_ENCODING", "utf8mb4")
 
     def __enter__(self) -> Any:
         """Get a connection.
         """
-        self.connection = pymysql.connect(host=self.credentials.host,
-                                          user=self.credentials.user,
-                                          password=self.credentials.password,
-                                          port=self.credentials.port,
-                                          db=self.credentials.database)
+        self.connection = self._get_connection()
         return self
+
+    def _get_connection(self) -> pymysql.connections.Connection:
+        """Get a connection.
+        """
+        if self.connection_name is None:  # Meaning we're not on GCP
+            self.logger.info("Reaching MySQL from local environment")
+            connection = pymysql.connect(
+                host=self.credentials.host,
+                user=self.credentials.user,
+                password=self.credentials.password,
+                port=self.credentials.port,
+                db=self.credentials.database,
+                charset=self.db_encoding,
+                cursorclass=pymysql.cursors.DictCursor)
+        else:  # Meaning we're on GCP
+            self.logger.info("Reaching MySQL from GCP environment")
+            connection = pymysql.connect(
+                unix_socket=f"{self.socket_dir}/{self.connection_name}",
+                user=self.credentials.user,
+                password=self.credentials.password,
+                port=self.credentials.port,
+                db=self.credentials.database,
+                charset=self.db_encoding,
+                cursorclass=pymysql.cursors.DictCursor)
+        return connection
 
     def __exit__(self, *exec_info) -> None:
         """Clear the connection

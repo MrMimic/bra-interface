@@ -31,6 +31,12 @@ Maps drawn according to
     gcloud builds submit --tag gcr.io/data-baguette/bra-interface
 ```
 
+## Launch
+
+```bash
+    gcloud run deploy --image gcr.io/data-baguette/bra-interface --platform managed --max-instances=1
+```
+
 ## TODO
 
 - Table that compare stats about massifs (supperficie, centroid, etc)
@@ -44,4 +50,3 @@ pays-basque
 pelvoux
 renoso-incudine
 ubaye
-
