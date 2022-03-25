@@ -44,9 +44,3 @@ Maps drawn according to
 
 MAPS:
 haute-tarentaise
-luchonnais
-mercantour
-pays-basque
-pelvoux
-renoso-incudine
-ubaye
