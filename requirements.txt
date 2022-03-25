@@ -1,0 +1,14 @@
+PyMySQL==1.0.2
+python-dotenv==0.19.2
+pandas==1.4.1
+folium==0.12.1
+wheel==0.37.1
+Shapely==1.8.1
+geopandas==0.10.2
+libpysal==4.6.2
+matplotlib==3.5.1
+mapclassify==2.4.3
+PyQt5==5.15.6
+fastparquet==0.8.0
+Flask==2.0.3
+gunicorn==20.1.0

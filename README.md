@@ -25,7 +25,13 @@ Maps drawn according to
 
 <https://www.avalanches.fr/static/1public/epaclpa/notices_par_massif/>
 
-# TODO
+## Docker
+
+```bash
+    gcloud builds submit --tag gcr.io/data-baguette/bra-interface
+```
+
+## TODO
 
 - Table that compare stats about massifs (supperficie, centroid, etc)
 - add "more info" with <https://www.avalanches.fr/static/1public/epaclpa/notices_par_massif>
