@@ -29,8 +29,12 @@ except KeyError:
 try:
     base_path = os.environ["BRA_LOG_FOLDER"]
 except KeyError:
-    base_path = os.path.join(os.sep, "logs")
-logger = get_logger(base_path=base_path, file_name=f"{today}_bra_database.log")
+        base_path = os.path.join(os.sep, "logs")
+try:
+    logger = get_logger(base_path=base_path, file_name=f"{today}_bra_database.log")
+except PermissionError:
+    base_path = os.path.join(os.path.dirname(__file__), "logs")
+    logger = get_logger(base_path=base_path, file_name=f"{today}_bra_database.log")
 
 # Get the massif names
 credentials = DbCredentials()
