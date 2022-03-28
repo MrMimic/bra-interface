@@ -34,7 +34,6 @@ class BraDatabase():
         """Get a connection.
         """
         if self.connection_name is None:  # Meaning we're not on GCP
-            self.logger.info("Reaching MySQL from local environment")
             connection = pymysql.connect(
                 host=self.credentials.host,
                 user=self.credentials.user,
@@ -44,7 +43,6 @@ class BraDatabase():
                 charset=self.db_encoding,
                 cursorclass=pymysql.cursors.DictCursor)
         else:  # Meaning we're on GCP
-            self.logger.info("Reaching MySQL from GCP environment")
             connection = pymysql.connect(
                 unix_socket=f"{self.socket_dir}/{self.connection_name}",
                 user=self.credentials.user,
