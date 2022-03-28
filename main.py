@@ -110,6 +110,15 @@ def index():
         historical_selected_massif = "aravis"
         activity_history_tab, activity_history_div = get_tab_panel_activity(active=False)
 
+    # The selected massif for the evoution
+    try:
+        evolution_selected_massif = request.form["evolution_selected_massif"]
+        activity_evolution_tab, activity_evolution_div = get_tab_panel_activity(active=True)
+    except KeyError:
+        evolution_selected_massif = "aravis"
+        activity_evolution_tab, activity_evolution_div = get_tab_panel_activity(active=False)
+
+
     # Get the BRA of the selected massif
     selected_bra = get_specific_bra(bra_selected_massif)
     # Get the history of the selected massif
@@ -118,20 +127,21 @@ def index():
     # Create the response context and post as a Jinja template
     original_link_formated = ".".join(selected_bra['original_link'].split(".")[3:5])
 
-    print(f"BRA: {activity_bra_tab}")
-    print(f"HIS: {activity_history_tab}")
 
     context = {
         "activity_history_tab": activity_history_tab,
         "activity_bra_tab": activity_bra_tab,
+        "activity_evolution_tab": activity_evolution_tab,
         "activity_history_div": activity_history_div,
         "activity_bra_div": activity_bra_div,
+        "activity_evolution_div": activity_evolution_div,
         "contact_email": "emeric.dynomant@gmail.com",
         "home": "https://data-baguette.com",
         "carte_risque_massifs": mapper.get_risk_map(html=True),
         "massifs": available_massifs,
         "BRA_selected_massif": bra_selected_massif,
         "HISTORY_selected_massif": historical_selected_massif,
+        "EVOLUTION_selected_massif": evolution_selected_massif,
         "BRA_data": {
             "Massif": selected_bra["massif"].title(),
             "BRA original": f"<a href='{selected_bra['original_link']}'target='_blank'>{original_link_formated}</a>",

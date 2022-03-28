@@ -27,7 +27,7 @@
             <li class="{{ activity_bra_tab }}"><a data-toggle="tab" href="#bra">Derniers BRA</a></li>
             <li><a data-toggle="tab" href="#carte">Carte des risques</a></li>
             <li class="{{ activity_history_tab }}"><a data-toggle="tab" href="#history">Historique des Bulletins</a></li>
-            <li><a data-toggle="tab" href="#evolution">Evolution par massif</a></li>
+            <li class="{{ activity_evolution_tab }}"><a data-toggle="tab" href="#evolution">Evolution par massif</a></li>
             <li><a data-toggle="tab" href="#about">A propos</a></li>
         </ul>
 
@@ -109,8 +109,21 @@
             </div>
 
             <!-- Tab 4: evolution -->
-            <div id="evolution" class="tab-pane fade">
-                </br>TBD
+            <div id="evolution" class="{{ activity_evolution_div }}">
+                <div class="select-massif-div">
+                    <form class="select-massif-form" method="POST" action="{{ url_for('index') }}">
+                        <select name="evolution_selected_massif" class="select-massif-dropdown">
+                            {% for massif in massifs %}
+                            {% if massif == EVOLUTION_selected_massif %}
+                            <option value="{{ massif }}" selected>{{ massif.title() }}</option>
+                            {% else %}
+                            <option value="{{ massif }}">{{ massif.title() }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="select-massif-button">Go</button>
+                    </form>
+                </div>
             </div>
 
             <!-- Tab 5: about -->
