@@ -121,13 +121,13 @@
                 <p>Plus d'info <a href="https://www.anena.org/7132-le-bulletin-du-risque-d-avalanche.htm#:~:text=Le%20bulletin%20d'estimation%20du,(routes%2C%20domaines%20skiables%E2%80%A6)" target="_blank">ici</a>.</p>
 
                 <h3>Pourquoi ce site ?</h3>
-                <p>Bien que vitalaux pour les passionnés et professionnels de la montagne, la publication des BRA dans son format actuel n'est que peu pratique (PDF à télécharger un par un, pas de vue d'ensemble, site austère, aucune visualisation graphique, etc).</p>
-                <p>Je voulais donc me faire un outil qui me permettrait de voir, en un coup d'oeil, où sont les massifs à risque a un instant donné afin de mieux planifier mes sorties ski de rando / alpinisme.</p>
-                <p>Cette base pourrait également servir à tout un temps d'apprentissages automatiques et/ou de traitements du langage naturel. Je peux aider à la réalisation si vous avez des idées.</p>
+                <p>Bien que vitaux pour les passionnés et professionnels de la montagne, la publication des BRA dans son format actuel n'est que peu pratique (PDF à télécharger un par un, pas de vue d'ensemble, site austère, aucune visualisation graphique, etc).</p>
+                <p>Je voulais ainsi me créer un outil qui me permette de voir, en un coup d'oeil, où sont les massifs à risque à un instant donné afin de mieux planifier mes sorties ski de rando / alpinisme.</p>
+                <p>Cette base pourrait également servir à tout un tas d'apprentissages automatiques et/ou de traitements du langage naturel. Je peux aider à la réalisation si vous avez des idées.</p>
                 
                 <h3>Comment ça marche ?</h3>
-                <p>Pour parler technique, un docker (<a href="https://github.com/MrMimic/bra-database" target="_blank">code en open-source</a>) se lance tous les jours sur GCP. Il parcourt les fichiers PDF, structure les données, analyse les images afin d'extraire la valeur de risque d'avalanche ce jour et insère tout dans une base MySQL managée.</p>
-                <p>Pour obtenir une clef d'accès (API) à cette base de donnée, me contacter via les réseaux ci-dessous.</p>
+                <p>Pour parler technique, un docker (<a href="https://github.com/MrMimic/bra-database" target="_blank">code en open-source</a>) se lance tous les jours sur GCP (Kubernetes Cronjob). Il parcourt les fichiers PDF, structure les données, analyse les images afin d'extraire la valeur de risque d'avalanche du jour et insère tout dans une base Cloud SQL managée.</p>
+                <p>Pour obtenir une clef d'accès (API) à cette base de donnée, merci de me contacter via les réseaux ci-dessous.</p>
                 <p>Le site que vous consultez (<a href="https://github.com/MrMimic/bra-interface" target="_blank">code en open-source</a>) a été réalisé en utilisant la librairie Python <a href="https://flask.palletsprojects.com/en/2.0.x/", target="_blank">Flask</a> comme serveur backend, <a href="https://geopandas.org/en/stable/" , target="_blank">GeoPandas</a> pour manipuler les données spatiales et <a href="https://python-visualization.github.io/folium/" , target="_blank">Folium</a> pour tracer les cartes.</p>
 
                 <h3>Autres liens</h3>
