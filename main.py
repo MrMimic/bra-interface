@@ -5,8 +5,10 @@ from datetime import datetime
 from typing import Dict
 from urllib import request
 
+import plotly.express as px
 from dotenv import load_dotenv
 from flask import Flask, render_template, request
+from plotly.io import to_json
 
 from bra_interface.connection import BraDatabase
 from bra_interface.maps import Mapper
@@ -29,7 +31,7 @@ except KeyError:
 try:
     base_path = os.environ["BRA_LOG_FOLDER"]
 except KeyError:
-        base_path = os.path.join(os.sep, "logs")
+    base_path = os.path.join(os.sep, "logs")
 try:
     logger = get_logger(base_path=base_path, file_name=f"{today}_bra_database.log")
 except PermissionError:
@@ -45,7 +47,6 @@ with BraDatabase(credentials=credentials, logger=logger) as database:
 
 # Create the object allowing to design the map
 mapper = Mapper(logger=logger)
-
 
 def get_specific_bra(massif: str) -> Dict[str, str]:
     """Select the latest BRA of a specific massif"""
@@ -79,6 +80,26 @@ def get_specific_history(massif: str) -> Dict[str, str]:
         history = [(d["date"].strftime(date_format), d["original_link"]) for d in database.exec_query(query)]
     return history
 
+
+def get_specific_evolution(massif: str) -> Dict[str, datetime]:
+    with BraDatabase(credentials=credentials, logger=logger) as database:
+        query = f"""
+            SELECT date, risk_score
+            FROM bra.france
+            WHERE massif = '{massif}'
+            ORDER BY date DESC
+            LIMIT 15;
+        """
+        data = database.exec_query(query)
+    fig = px.line(data, x="date", y="risk_score")
+    fig.update_layout(
+        title=f"Evolution du risque d'avalanches ({massif}) sur 15 jours",
+        xaxis_title="Date",
+        yaxis_title="Risque d'avalanches",
+        yaxis_tickformat =',d'
+    )
+    fig_json = to_json(fig, pretty=True)
+    return fig_json
 
 def get_tab_panel_activity(active: bool = True) -> str:
     """The first active/inactive refers to the selected tab on top-page.
@@ -123,6 +144,8 @@ def index():
     selected_bra = get_specific_bra(bra_selected_massif)
     # Get the history of the selected massif
     selected_history = get_specific_history(historical_selected_massif)
+    # Get the evolution for the selected massif
+    selected_evolution = get_specific_evolution(evolution_selected_massif)
 
     # Create the response context and post as a Jinja template
     original_link_formated = ".".join(selected_bra['original_link'].split(".")[3:5])
@@ -156,7 +179,8 @@ def index():
             "Départs provoqués": selected_bra["declanchements_provoques"],
             "Qualité de la neige": selected_bra["qualite_neige"],
         },
-        "BRA_history": selected_history
+        "BRA_history": selected_history,
+        "BRA_evolution": selected_evolution,
     }
     html_template = render_template("index.html", **context)
     return html_template

@@ -45,23 +45,21 @@ class DbCredentials:
             FROM {self.database}.{self.table}
         """
         if self.connection_name is None:  # Meaning we're not on GCP
-            connection = pymysql.connect(
-                host=self.host,
-                user=self.user,
-                password=self.password,
-                port=self.port,
-                db=self.database,
-                charset=self.db_encoding,
-                cursorclass=pymysql.cursors.DictCursor)
+            connection = pymysql.connect(host=self.host,
+                                         user=self.user,
+                                         password=self.password,
+                                         port=self.port,
+                                         db=self.database,
+                                         charset=self.db_encoding,
+                                         cursorclass=pymysql.cursors.DictCursor)
         else:  # Meaning we're on GCP
-            connection = pymysql.connect(
-                unix_socket=f"{self.socket_dir}/{self.connection_name}",
-                user=self.user,
-                password=self.password,
-                port=self.port,
-                db=self.database,
-                charset=self.db_encoding,
-                cursorclass=pymysql.cursors.DictCursor)
+            connection = pymysql.connect(unix_socket=f"{self.socket_dir}/{self.connection_name}",
+                                         user=self.user,
+                                         password=self.password,
+                                         port=self.port,
+                                         db=self.database,
+                                         charset=self.db_encoding,
+                                         cursorclass=pymysql.cursors.DictCursor)
         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
             cursor.execute(query)
             self.inserted_files = cursor.fetchone()["nb_files"]
@@ -129,7 +127,7 @@ class StabiliteManteauKeys():
     """
 
     def __init__(self):
-        self.situation_avalancheuse_typique: List[str] = ["typique", "avalancheuse"]
+        self.situation_avalancheuse_typique: List[str] = ["typique", "typiques", "avalancheuse"]
         self.departs_spontanes: List[str] = ["spontané", "naturels"]
         self.declanchements_provoques: List[str] = [
             "skieurs", "déclanchement", "déclenchements", "provoqués", "declenchements", "accidentels"
