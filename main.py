@@ -39,7 +39,7 @@ except PermissionError:
 # Get the massif names
 credentials = DbCredentials()
 with BraDatabase(credentials=credentials, logger=logger) as database:
-    query = f"""
+    query = """
         SELECT DISTINCT(massif) from bra.france"""
     available_massifs = [m["massif"] for m in database.exec_query(query)]
 
