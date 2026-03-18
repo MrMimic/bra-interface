@@ -158,7 +158,6 @@ def index():
         "activity_history_div": activity_history_div,
         "activity_bra_div": activity_bra_div,
         "activity_evolution_div": activity_evolution_div,
-        "contact_email": "emeric.dynomant@gmail.com",
         "home": "https://data-baguette.com",
         "carte_risque_massifs": mapper.get_risk_map(html=True),
         "massifs": available_massifs,
