@@ -2,7 +2,7 @@
 name = "bra-interface"
 version = "0.1.0"
 description = ""
-authors = ["Emeric <emeric.dynomant@gmail.com>"]
+authors = ["Emeric"]
 license = "GPL-3"
 
 packages = [
